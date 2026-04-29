@@ -14,6 +14,6 @@ jobs:
         run: |
           dotnet tool install -g Clojure.Main
           dotnet tool install -g Clojure.Cljr --version 0.1.0-alpha11
-      - name: Install dependencies
+      - name: Run tests
         run: |
           cljr -A:test -e "(require 'com.structmap.spatial.quadkey-test) (require 'com.structmap.spatial.geohash-test) (let [{:keys [test pass fail error]} (clojure.test/run-all-tests)] (when-not (and (= test pass) (zero? fail) (zero? error)) (Environment/Exit 1)))"
