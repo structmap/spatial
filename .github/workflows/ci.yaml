@@ -1,0 +1,19 @@
+---
+name: ci
+on: push
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Install dependencies
+        run: |
+          dotnet tool install -g Clojure.Main
+          dotnet tool install -g Clojure.Cljr
+      - name: Install dependencies
+        run: |
+          cljr -A:test -e "(require 'com.structmap.spatial.quadkey-test) (require 'com.structmap.spatial.geohash-test) (let [{:keys [test pass fail error]} (clojure.test/run-all-tests)] (when-not (and (= test pass) (zero? fail) (zero? error)) (Environment/Exit 1)))"
